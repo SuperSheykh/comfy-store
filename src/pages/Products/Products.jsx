@@ -1,5 +1,13 @@
+import Loading from '../../components/Loading'
+
 const Products = () => {
-   return <h1 className='text-4xl font-bold'>Products</h1>
+   return (
+      <section>
+         <div className='align-element py-16 grid place-items-center'>
+            <Loading />
+         </div>
+      </section>
+   )
 }
 
 export default Products
