@@ -1,26 +1,27 @@
 import Hero from './Hero'
 import { customFetch } from '../../utils/index'
 import { useLoaderData } from 'react-router-dom'
+import FeaturedProducts from './FeaturedProducts'
+
+const url = '/products?featured=true'
 export const loader = async () => {
    // Should return only featured products
    try {
-      const response = await customFetch('/products?featured=true')
-      const data = await response.json()
-
-      console.log(data)
+      const response = await customFetch(url)
+      const products = await response.data.data
+      return products
    } catch (error) {
       console.log(error)
-      return 'Hello, I am the data'
+      return []
    }
 }
 
 const Landing = () => {
-   const data = useLoaderData()
-   console.log(data)
    return (
       <section>
          <div className='align-element py-16'>
             <Hero />
+            <FeaturedProducts />
          </div>
       </section>
    )
