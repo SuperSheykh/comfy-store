@@ -1,6 +1,5 @@
 import Hero from './Hero'
 import { customFetch } from '../../utils/index'
-import { useLoaderData } from 'react-router-dom'
 import FeaturedProducts from './FeaturedProducts'
 
 const url = '/products?featured=true'
@@ -18,12 +17,10 @@ export const loader = async () => {
 
 const Landing = () => {
    return (
-      <section>
-         <div className='align-element py-16'>
-            <Hero />
-            <FeaturedProducts />
-         </div>
-      </section>
+      <div>
+         <Hero />
+         <FeaturedProducts />
+      </div>
    )
 }
 
