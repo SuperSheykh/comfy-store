@@ -11,6 +11,8 @@ import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
 import Orders from './pages/Orders'
 import { loader as landingLoader } from './pages/Landing/Landing'
+import { loader as singleLoader } from './pages/SingleProduct/SingleProduct'
+import { loader as productsLoader } from './pages/Products/Products'
 const router = createBrowserRouter([
    {
       path: '/',
@@ -25,10 +27,12 @@ const router = createBrowserRouter([
          },
          {
             path: 'products',
+            loader: productsLoader,
             element: <Products />,
          },
          {
             path: 'products/:id',
+            loader: singleLoader,
             element: <SingleProduct />,
          },
          {

@@ -19,7 +19,6 @@ const Navbar = () => {
    }
 
    useEffect(() => {
-      console.log(theme)
       localStorage.setItem('theme', theme)
       document.documentElement.dataset.theme = theme
    }, [theme])
