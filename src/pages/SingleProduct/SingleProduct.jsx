@@ -1,6 +1,8 @@
 import { Link, useLoaderData } from 'react-router-dom'
 import { customFetch, formatPrice } from '../../utils'
 import { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { addItem } from '../../features/cart/cartSlice'
 import QuantityOptions from './QuantityOptions'
 
 export const loader = async ({ params: { id } }) => {
@@ -11,8 +13,8 @@ export const loader = async ({ params: { id } }) => {
 
 const SingleProduct = () => {
    const product = useLoaderData()
-   console.log(product)
    const {
+      id,
       attributes: { image, title, price, company, description, colors },
    } = product
 
@@ -20,6 +22,21 @@ const SingleProduct = () => {
    const [qty, setQty] = useState(1)
 
    const handleQty = (e) => setQty(parseInt(e.target.value))
+
+   const cartProduct = {
+      cartID: id + productColor,
+      productID: id,
+      image,
+      title,
+      price,
+      qty,
+      productColor,
+      company,
+   }
+   const dispatch = useDispatch()
+
+   const addToCart = () => dispatch(addItem({ product: cartProduct }))
+
    return (
       <div>
          <div className='text-md breadcrumbs'>
@@ -61,7 +78,7 @@ const SingleProduct = () => {
                               'border-2 border-secondary'
                            }`}
                            style={{ backgroundColor: color }}
-                           onClick={() => setProductColor(color)}
+                           onClick={() => console.log('color change')}
                         ></button>
                      ))}
                   </div>
@@ -84,7 +101,7 @@ const SingleProduct = () => {
                   <div className='mt-10'>
                      <button
                         className='btn btn-secondary btn-md'
-                        onClick={() => console.log('Add to bag')}
+                        onClick={addToCart}
                      >
                         Add to bag
                      </button>

@@ -2,26 +2,17 @@ import { BsCart3, BsMoonFill, BsSunFill } from 'react-icons/bs'
 import { FaBarsStaggered } from 'react-icons/fa6'
 import { NavLink } from 'react-router-dom'
 import NavLinks from './NavLinks'
-import { useEffect, useState } from 'react'
-
-const getThemeFromLocalStorage = () => localStorage.getItem('theme') || 'winter'
+import { useDispatch, useSelector } from 'react-redux'
+import { toggleTheme } from '../../features/user/userSlice'
 
 const Navbar = () => {
-   const [theme, setTheme] = useState(getThemeFromLocalStorage())
+   const dispatch = useDispatch()
+   const { theme } = useSelector((state) => state.userState)
+   const isDarkTheme = theme === 'dracula'
 
-   const handleTheme = () => {
-      const theme = {
-         winter: 'winter',
-         dracula: 'dracula',
-      }
+   const handleTheme = () => dispatch(toggleTheme())
 
-      setTheme((prev) => (prev === theme.winter ? theme.dracula : theme.winter))
-   }
-
-   useEffect(() => {
-      localStorage.setItem('theme', theme)
-      document.documentElement.dataset.theme = theme
-   }, [theme])
+   const cartItems = useSelector((state) => state.cartState.numItemsInCart)
 
    return (
       <nav className='bg-base-200'>
@@ -56,7 +47,11 @@ const Navbar = () => {
                {/* theme icons */}
                <label className='swap swap-rotate'>
                   {/* this hidden checkbox controls the state */}
-                  <input type='checkbox' onChange={handleTheme} />
+                  <input
+                     type='checkbox'
+                     onChange={handleTheme}
+                     defaultChecked={isDarkTheme}
+                  />
 
                   {/* sun icon */}
                   <BsSunFill className='swap-on h-4 w-4' />
@@ -72,7 +67,7 @@ const Navbar = () => {
                   <div className='indicator'>
                      <BsCart3 className='h-6 w-6' />
                      <span className='badge badge-sm badge-primary indicator-item'>
-                        8
+                        {cartItems}
                      </span>
                   </div>
                </NavLink>

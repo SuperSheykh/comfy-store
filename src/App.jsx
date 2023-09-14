@@ -13,6 +13,11 @@ import Orders from './pages/Orders'
 import { loader as landingLoader } from './pages/Landing/Landing'
 import { loader as singleLoader } from './pages/SingleProduct/SingleProduct'
 import { loader as productsLoader } from './pages/Products/Products'
+import { action as registerAction } from './pages/Register/Register'
+import { action as loginAction } from './pages/Login/Login'
+
+import { store } from './store'
+
 const router = createBrowserRouter([
    {
       path: '/',
@@ -52,11 +57,13 @@ const router = createBrowserRouter([
    },
    {
       path: '/login',
+      action: loginAction(store),
       element: <Login />,
       errorElement: <Error />,
    },
    {
       path: '/register',
+      action: registerAction,
       element: <Register />,
       errorElement: <Error />,
    },
