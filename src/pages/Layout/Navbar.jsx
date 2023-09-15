@@ -39,7 +39,7 @@ const Navbar = () => {
                </div>
             </div>
             <div className='nav-center hidden lg:flex'>
-               <ul className='menu menu-horizontal'>
+               <ul className='menu menu-horizontal flex-nowrap'>
                   <NavLinks />
                </ul>
             </div>

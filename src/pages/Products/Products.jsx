@@ -1,16 +1,17 @@
-import Loading from '../../components/Loading'
 import { customFetch } from '../../utils'
 import Filters from './Filters'
-import PaginationContainer from './PaginationContainer'
+import { PaginationContainer } from '../../components'
 import ProductsContainer from './ProductsContainer'
-export const loader = async ({ request }) => {
-   const params = Object.fromEntries([
-      ...new URL(request.url).searchParams.entries(),
-   ])
-   const response = await customFetch('/products')
-   const { data: products, meta } = response.data
-   return { products, meta, params }
-}
+export const loader =
+   (queryClient) =>
+   async ({ request }) => {
+      const params = Object.fromEntries([
+         ...new URL(request.url).searchParams.entries(),
+      ])
+      const response = await customFetch('/products', { params })
+      const { data: products, meta } = response.data
+      return { products, meta, params }
+   }
 
 const Products = () => {
    return (

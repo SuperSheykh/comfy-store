@@ -1,6 +1,12 @@
 import { toast } from 'react-toastify'
 import { customFetch } from '../../utils'
-import { redirect } from 'react-router-dom'
+import { redirect, useLoaderData } from 'react-router-dom'
+import {
+   ComplexPaginationContainer,
+   PaginationContainer,
+   SectionTitle,
+} from '../../components'
+import OrdersList from './OrdersList'
 
 export const loader =
    (store) =>
@@ -27,7 +33,7 @@ export const loader =
             data: { data, meta },
          } = response
 
-         return { data, meta }
+         return { orders: data, meta }
       } catch (error) {
          console.log(error)
          toast.error('Could not find your orders')
@@ -36,9 +42,16 @@ export const loader =
    }
 
 const Orders = () => {
+   const { meta } = useLoaderData()
+
+   if (meta.pagination.total < 1)
+      return <SectionTitle text='You have no orders to display' />
+
    return (
       <>
-         <h1 className='text-4xl font-bold'>Orders</h1>
+         <SectionTitle text='Your orders' />
+         <OrdersList />
+         <ComplexPaginationContainer />
       </>
    )
 }
