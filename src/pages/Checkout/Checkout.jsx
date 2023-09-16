@@ -18,7 +18,7 @@ export const loader = (store) => async () => {
 }
 
 export const action =
-   (store) =>
+   (store, queryClient) =>
    async ({ request }) => {
       const formData = await request.formData()
       const { name, address } = Object.fromEntries(formData)
@@ -45,6 +45,8 @@ export const action =
                headers: { Authorization: `Bearer ${user.token}` },
             }
          )
+
+         queryClient.removeQueries(['orders']) // Remove query so that it's updated!
          store.dispatch(clearCart())
          toast.success('Order placed successfully!')
          return redirect('/orders')

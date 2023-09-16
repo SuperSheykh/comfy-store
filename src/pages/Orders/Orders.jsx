@@ -9,7 +9,7 @@ import {
 import OrdersList from './OrdersList'
 
 export const loader =
-   (store) =>
+   (store, queryClient) =>
    async ({ request }) => {
       const {
          userState: { user },
@@ -25,10 +25,9 @@ export const loader =
       ])
 
       try {
-         const response = await customFetch('/orders', {
-            params,
-            headers: { Authorization: `Bearer ${user.token}` },
-         })
+         const response = await queryClient.ensureQueryData(
+            ordersQuery(params, user)
+         )
          const {
             data: { data, meta },
          } = response
@@ -40,6 +39,21 @@ export const loader =
          return redirect('/')
       }
    }
+
+const ordersQuery = (params, user) => {
+   return {
+      queryKey: [
+         'orders',
+         user.username,
+         params.page ? parseInt(params.page) : 1,
+      ],
+      queryFn: () =>
+         customFetch('/orders', {
+            params,
+            headers: { Authorization: `Bearer ${user.token}` },
+         }),
+   }
+}
 
 const Orders = () => {
    const { meta } = useLoaderData()
